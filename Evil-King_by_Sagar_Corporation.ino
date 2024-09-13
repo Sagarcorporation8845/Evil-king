@@ -355,10 +355,25 @@ void handleIndex() {
     String _html = _tempHTML;
 
     for (int i = 0; i < 16; ++i) {
-      if ( _networks[i].ssid == "") {
+      if (_networks[i].ssid == "") {
         break;
       }
-      _html += "<tr><td>" + _networks[i].ssid + "</td><td>" + bytesToStr(_networks[i].bssid, 6) + "</td><td>" + String(_networks[i].ch) + "<td><form method='post' action='/?ap=" + bytesToStr(_networks[i].bssid, 6) + "'>";
+
+      String signalClass;
+      int rssi = _networks[i].rssi;
+      if (rssi > -50) {
+        signalClass = "excellent";  // Strong signal
+      } else if (rssi > -70) {
+        signalClass = "good";       // Good signal
+      } else if (rssi > -85) {
+        signalClass = "medium";     // Medium signal
+      } else {
+        signalClass = "poor";       // Weak signal
+      }
+
+      _html += "<tr><td>" + _networks[i].ssid + "</td><td>" + bytesToStr(_networks[i].bssid, 6) + "</td><td>" + String(_networks[i].ch) + "</td>";
+      _html += "<td class='" + signalClass + "'>" + String(rssi) + " dBm</td>";
+      _html += "<td><form method='post' action='/?ap=" + bytesToStr(_networks[i].bssid, 6) + "'>";
 
       if (bytesToStr(_selectedNetwork.bssid, 6) == bytesToStr(_networks[i].bssid, 6)) {
         _html += "<button style='background-color: #90ee90;'>Selected</button></form></td></tr>";
