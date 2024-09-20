@@ -14,7 +14,7 @@ Youtube Channel Of Sagar Corporation
 ([https://youtube.com/@sagarcorporation](https://www.youtube.com/@sagarcorporation)) 
 
 Portal UI:-
-![1](https://github.com/user-attachments/assets/04066660-37a6-4426-b59f-6c60a235c0c5)
+![image](https://github.com/user-attachments/assets/82520c89-5348-4616-bd07-9afa7c1ed95d)
 
 Phishing Page:-
 ![2](https://github.com/user-attachments/assets/51453c39-8316-4951-85bf-1c1263423545)
