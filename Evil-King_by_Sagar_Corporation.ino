@@ -1,3 +1,4 @@
+//v2
 #include <ESP8266WiFi.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
@@ -12,12 +13,12 @@ typedef struct
   String ssid;
   uint8_t ch;
   uint8_t bssid[6];
-  int rssi;
+  int32_t rssi;
 }  _Network;
 
 
 const byte DNS_PORT = 53;
-IPAddress apIP(192, 168, 1, 1);
+IPAddress apIP(192, 168, 0, 1);
 DNSServer dnsServer;
 ESP8266WebServer webServer(80);
 
@@ -61,9 +62,8 @@ void performScan() {
       for (int j = 0; j < 6; j++) {
         network.bssid[j] = WiFi.BSSID(i)[j];
       }
-
       network.ch = WiFi.channel(i);
-      _networks[i].rssi = WiFi.RSSI(i);
+      network.rssi = WiFi.RSSI(i);
       _networks[i] = network;
     }
   }
@@ -360,7 +360,7 @@ void handleIndex() {
       }
 
       String signalClass;
-      int rssi = _networks[i].rssi;
+      int32_t rssi = _networks[i].rssi;
       if (rssi > -50) {
         signalClass = "excellent";  // Strong signal
       } else if (rssi > -70) {
@@ -372,7 +372,7 @@ void handleIndex() {
       }
 
       _html += "<tr><td>" + _networks[i].ssid + "</td><td>" + bytesToStr(_networks[i].bssid, 6) + "</td><td>" + String(_networks[i].ch) + "</td>";
-      _html += "<td class='" + signalClass + "'>" + String(rssi) + " dBm</td>";
+      _html += "<td class='" + signalClass + "'><b>" + String(rssi) + " dBm</b></td>";
       _html += "<td><form method='post' action='/?ap=" + bytesToStr(_networks[i].bssid, 6) + "'>";
 
       if (bytesToStr(_selectedNetwork.bssid, 6) == bytesToStr(_networks[i].bssid, 6)) {
